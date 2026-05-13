@@ -1,0 +1,36 @@
+<svg width="1400" height="760" viewBox="0 0 1400 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="760" fill="white"/>
+  <rect x="46" y="46" width="1308" height="668" fill="white" stroke="#111111" stroke-width="2"/>
+  <text x="80" y="104" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="32" font-weight="800">운영 변경 정렬 흐름</text>
+  <line x1="80" y1="128" x2="1320" y2="128" stroke="#111111" stroke-width="2"/>
+
+  <rect x="96" y="202" width="300" height="392" fill="white" stroke="#111111" stroke-width="2"/>
+  <rect x="548" y="202" width="304" height="392" fill="white" stroke="#111111" stroke-width="2"/>
+  <rect x="1004" y="202" width="252" height="392" fill="white" stroke="#111111" stroke-width="2"/>
+
+  <text x="122" y="248" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="22" font-weight="700">입력</text>
+  <text x="122" y="296" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">참가 인원 증가</text>
+  <text x="122" y="338" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">세션 시간 변경</text>
+  <text x="122" y="380" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">야외 프로그램 취소</text>
+  <text x="122" y="422" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">장소 이동</text>
+  <text x="122" y="464" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">VIP 일정 변경</text>
+
+  <text x="574" y="248" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="22" font-weight="700">정렬</text>
+  <text x="574" y="296" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">변경 이유와 긴급도 기록</text>
+  <text x="574" y="338" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">영향 범위 확인</text>
+  <text x="574" y="380" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">숙박 / 식음 / 교통 / 안전 / 안내 / 인력</text>
+  <text x="574" y="422" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">승인 필요 항목 분리</text>
+  <text x="574" y="464" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">역할별 전달 내용 재구성</text>
+
+  <text x="1030" y="248" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="22" font-weight="700">실행</text>
+  <text x="1030" y="296" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">주최기관 승인</text>
+  <text x="1030" y="338" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">운영사 재배치</text>
+  <text x="1030" y="380" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">파트너 전달</text>
+  <text x="1030" y="422" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">현장 공지 수정</text>
+  <text x="1030" y="464" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">체크리스트 갱신</text>
+
+  <line x1="396" y1="398" x2="548" y2="398" stroke="#111111" stroke-width="3"/>
+  <path d="M532 384L548 398L532 412" stroke="#111111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="852" y1="398" x2="1004" y2="398" stroke="#111111" stroke-width="3"/>
+  <path d="M988 384L1004 398L988 412" stroke="#111111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

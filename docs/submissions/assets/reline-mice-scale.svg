@@ -1,0 +1,38 @@
+<svg width="1400" height="820" viewBox="0 0 1400 820" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="820" fill="white"/>
+  <rect x="48" y="46" width="1304" height="728" fill="white" stroke="#111111" stroke-width="2"/>
+  <text x="82" y="102" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="32" font-weight="800">한국 MICE 주요 수치</text>
+  <line x1="82" y1="126" x2="1318" y2="126" stroke="#111111" stroke-width="2"/>
+
+  <rect x="82" y="174" width="286" height="118" fill="white" stroke="#111111" stroke-width="2"/>
+  <rect x="394" y="174" width="286" height="118" fill="white" stroke="#111111" stroke-width="2"/>
+  <rect x="706" y="174" width="286" height="118" fill="white" stroke="#111111" stroke-width="2"/>
+  <rect x="1018" y="174" width="286" height="118" fill="white" stroke="#111111" stroke-width="2"/>
+
+  <text x="108" y="218" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="16" font-weight="700">2021 전체 참가자</text>
+  <text x="108" y="264" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="34" font-weight="800">8,633,164명</text>
+  <text x="420" y="218" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="16" font-weight="700">2021 공급비용</text>
+  <text x="420" y="264" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="34" font-weight="800">약 6,097억 원</text>
+  <text x="732" y="218" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="16" font-weight="700">2022 평균 총 체류일</text>
+  <text x="732" y="264" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="34" font-weight="800">3.46일</text>
+  <text x="1044" y="218" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="16" font-weight="700">2021 국제회의</text>
+  <text x="1044" y="252" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="30" font-weight="800">473건</text>
+  <text x="1044" y="280" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="16">세계 2위</text>
+
+  <text x="82" y="366" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="24" font-weight="800">2021 참가자 구성</text>
+  <line x1="82" y1="386" x2="1318" y2="386" stroke="#111111" stroke-width="1.5"/>
+
+  <text x="82" y="448" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">전시</text>
+  <rect x="144" y="420" width="760" height="36" fill="#111111"/>
+  <text x="930" y="446" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18" font-weight="700">5,300,633명</text>
+
+  <text x="82" y="526" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">미팅</text>
+  <rect x="144" y="498" width="440" height="36" fill="#111111"/>
+  <text x="610" y="524" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18" font-weight="700">3,064,887명</text>
+
+  <text x="82" y="604" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">컨벤션</text>
+  <rect x="144" y="576" width="40" height="36" fill="#111111"/>
+  <text x="210" y="602" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18" font-weight="700">267,644명</text>
+
+  <text x="82" y="706" fill="#111111" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="15">출처: 한국관광공사 K-MICE 2021 경제적 파급효과 분석, 2022 참가자 조사</text>
+</svg>

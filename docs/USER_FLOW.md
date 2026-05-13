@@ -1,185 +1,126 @@
-# SummitHarness User Flow
+# Relai 핵심 운영 흐름
 
 ## 한 줄 요약
 
-사용자는 짧은 명령만 실행하고, 하네스는 내부에서 환경 점검, 제출용 PDF 검토, 컨텍스트 압축, loop 실행, 평가, handoff 갱신을 반복합니다.
+Relai의 핵심 흐름은 `변경 요청 접수 → 영향 맵 갱신 → 합의 잠금 보드 재배치 → 승인 판단 → 재잠금 또는 보류`입니다.
 
-현재 이 저장소는 첫 runnable loop slice를 검증하는 단계이므로, `current-state.md`와 `handoff.md`가 같은 상태를 말하는지 함께 확인해야 합니다.
+## 화면 스택
 
-## 1. 설치
+| 화면 | 진입 계기 | 사용자가 가장 먼저 확인하는 것 | 다음 액션 |
+| --- | --- | --- | --- |
+| Change Control Tower | 프로젝트 진입, 분석 완료 후 복귀 | 어떤 변경이 무엇을 다시 열었는지 | 계약 항목 상세 보기, 승인 브리핑 열기 |
+| Contract Detail View | 보드나 영향 맵의 항목 선택 | 왜 이 항목이 잠겼거나 다시 열렸는지 | 담당자 지정, 질문 추가, 변경 연결 |
+| Approval Briefing View | 승인 대기 항목 선택 | 지금 결정하지 않으면 무엇이 막히는지 | 승인, 보류, 추가 확인 요청 |
+| Change Request Intake View | 새 변경 요청 등록 | 어떤 요청을 어떤 근거로 추가하는지 | 저장 후 재분석 실행 |
 
-사용자:
+## 1. 최초 진입과 빈 상태
 
-```bash
-git clone https://github.com/summit1123/SummitHarness.git
-cd SummitHarness
-python3 install.py
-```
+사용자가 프로젝트에 처음 들어오면 빈 대시보드가 아니라 `무엇을 입력하면 분석이 시작되는지`가 보여야 합니다.
 
-내부 처리:
+- 필수 입력: 제목, 원문 또는 파일, 요청자/작성자, 담당자, 목표 시점
+- 보조 입력: 관련 화면, 관련 API, 요청 배경
+- 데모 시작점: 샘플 요구사항 불러오기 또는 마지막 데모 데이터 복원
 
-1. plugin bundle을 `~/.codex/plugins/codex-ralph-loop`에 복사
-2. `~/.agents/plugins/marketplace.json` 갱신
-3. `~/.codex/config.toml`에서 `codex_hooks = true` 보장
-4. `~/.codex/hooks.json`에 Stop dispatcher 설치
-5. 개인 스킬이 있으면 `~/.agents/skills/`에 연결
+빈 상태에서 사용자가 체감해야 하는 것은 다음과 같습니다.
 
-사용자 체감:
+- 원문과 변경 요청의 시작점이 한곳에 모입니다.
+- 아직 분석이 없다는 사실이 아니라, 무엇을 넣으면 첫 보드가 생기는지가 분명합니다.
 
-- Codex에서 plugin/skills/commands를 사용할 수 있게 됨
-- 경우에 따라 Codex 재시작 필요
+## 2. 분석 실행과 초기 구조화
 
-## 2. 대상 프로젝트 bootstrap
+사용자가 `계약 분석 실행`을 누르면 시스템은 아래 순서로 움직입니다.
 
-사용자:
+1. 원문을 `잠김 후보`, `열린 질문`, `승인 필요`, `변경 요청` 단위로 분해합니다.
+2. 같은 원문을 기획 관점과 개발 관점으로 병렬 재구성합니다.
+3. 영향 범위를 화면, API, 데이터, 테스트, 일정, 담당자 축으로 펼칩니다.
+4. 승인권자가 바로 볼 수 있는 브리핑 초안을 만듭니다.
 
-```bash
-python3 ~/.codex/plugins/codex-ralph-loop/scripts/bootstrap_project.py .
-```
+이 단계에서 로딩은 전체 화면을 지우지 않고, 기존 결과가 있으면 유지한 채 `갱신 중` 상태로 표현해야 합니다.
 
-내부 처리:
+## 3. Change Control Tower에서 읽는 순서
 
-- `.codex-loop/` 생성
-- `scripts/codex_ralph.py` 생성
-- `scripts/context_engine.py` 생성
-- `scripts/preflight.py` 생성
-- `scripts/asset_registry.py` 생성
-- `scripts/review_submission_pdf.py` 생성
-- `scripts/ralph_session.py` 생성
-- `.codex/commands/`와 hook script 생성
-- `.gitignore`에 runtime ignore 추가
+분석이 성공하면 첫 화면은 아래 순서로 읽혀야 합니다.
 
-사용자 체감:
+1. 상단 운영 헤더: 현재 릴리즈, 다시 열린 계약 수, 승인 필요 수
+2. 좌측 영향 맵: 변경 요청과 연결된 화면/API/테스트/일정/담당자 노드
+3. 중앙 합의 잠금 보드: `잠김`, `변경으로 다시 열림`, `승인 대기`, `열린 질문`, `착수 가능`
+4. 우측 브리핑 레일: 지금 결정할 항목, 차단 리스크, 다음 액션
+5. 하단 근거 로그: 원문, 회의, 채팅, 메모리 카드 링크
 
-- 이 repo가 SummitHarness-aware 상태가 됨
+이 화면의 목적은 `AI가 무슨 말을 했는지`를 읽게 하는 것이 아니라 `팀이 지금 무엇을 결정해야 하는지`를 즉시 보게 하는 것입니다.
 
-## 3. 환경 점검
+## 4. Contract Detail View에서 확인하는 것
 
-사용자:
+사용자가 보드 열이나 영향 맵 노드를 누르면 해당 계약 항목의 상세가 열립니다.
 
-```bash
-python3 scripts/preflight.py run
-```
+상세 화면은 최소 아래 정보를 함께 보여야 합니다.
 
-내부 처리:
+- 원문 근거 문장
+- 기획 관점 설명과 개발 관점 설명
+- 연결된 화면/API/테스트/일정 영향
+- 책임자와 승인 주체
+- 왜 잠겼는지 또는 왜 다시 열렸는지에 대한 변경 이유
 
-- Codex CLI, git, python, node 계열 툴 확인
-- hook 활성화 여부 확인
-- rmcp_client, Figma 흔적 확인
-- `OPENAI_API_KEY`, ffmpeg 등 media 관련 힌트 확인
-- 결과를 `.codex-loop/preflight/status.json`, `REPORT.md`에 저장
+이 화면은 상세 설명 페이지가 아니라, 보드 재배치의 근거를 검증하는 작업면입니다.
 
-사용자 체감:
+## 5. 승인 대기 흐름
 
-- 지금 바로 돌릴 수 있는지, 뭐가 막히는지 바로 알 수 있음
+계약 항목에 `승인 필요`가 붙으면 자동으로 Approval Briefing View와 연결됩니다.
 
-## 4. 컨텍스트 압축
+승인 대기 상태에서는 아래가 동시에 보여야 합니다.
 
-사용자:
+- 누가 결정해야 하는가
+- 지금 승인하지 않으면 어떤 작업이 막히는가
+- 보류 시 일정/범위 영향은 무엇인가
+- 승인 후 바로 착수 가능한 다음 액션은 무엇인가
 
-```bash
-python3 scripts/context_engine.py refresh --source bootstrap
-```
+승인 결과는 `잠김` 또는 `보류`로 이동하며, 단순 완료 배지가 아니라 근거 로그와 함께 남아야 합니다.
 
-내부 처리:
+## 6. 변경 요청이 들어왔을 때의 재개방 흐름
 
-- PRD, tasks, latest state, logs, review 결과, 승인 자산 읽기
-- durable facts / open questions 반영
-- `current-state.md`와 `handoff.md` 생성
-- `events.jsonl`에 refresh 기록
+새 변경 요청이 등록되면 기존 잠긴 계약 일부가 다시 열릴 수 있습니다.
 
-운영자는 여기서 `current-state.md`를 먼저 보고, 그 다음 `handoff.md`가 그 상태를 정확히 요약하는지 확인합니다.
+흐름은 아래와 같습니다.
 
-사용자 체감:
+1. Change Request Intake View에서 제목, 이유, 긴급도, 요청자를 입력합니다.
+2. 기존 계약 중 연결된 항목을 선택하거나 시스템 추천 연결을 확인합니다.
+3. 재분석을 실행합니다.
+4. 영향 맵에서 새로 흔들리는 노드를 강조합니다.
+5. 합의 잠금 보드에서 관련 항목을 `변경으로 다시 열림` 또는 `승인 대기`로 이동합니다.
 
-- 긴 로그를 다 읽지 않고도 `handoff.md`만 보면 다음 행동을 이해할 수 있음
+핵심은 변경 요청이 단순 로그 추가가 아니라 `계약 상태를 다시 여는 이벤트`로 표현되어야 한다는 점입니다.
 
-## 5. 제출용 PDF 점검
+## 7. 상태 전이 계약
 
-사용자:
+| 상태 | 의미 | 사용 가능한 액션 | 다음 상태 |
+| --- | --- | --- | --- |
+| 빈 상태 | 분석 전 입력만 있는 상태 | 초안 등록, 샘플 불러오기, 변경 요청 생성 | 분석 중 |
+| 분석 중 | 구조화/영향 분석 실행 중 | 대기, 이전 결과 확인 | 분석 성공, 분석 실패 |
+| 분석 성공 | 영향 맵과 잠금 보드가 최신 상태로 생성됨 | 상세 열기, 승인 브리핑 열기, 변경 요청 추가 | 승인 대기, 변경으로 다시 열림 |
+| 분석 실패 | 호출 실패, 파싱 실패, 필수 입력 누락 | 재시도, 수동 검토, 입력 수정 | 분석 중 |
+| 승인 대기 | 승인권자 결정이 남아 있음 | 승인, 보류, 추가 확인 요청 | 잠김, 보류, 추가 확인 필요 |
+| 추가 확인 필요 | 근거 부족 또는 영향 미확정 | 담당자 지정, 질문 추가, 재분석 | 분석 중, 승인 대기 |
+| 잠김 | 계약이 확정되어 착수 가능 | 작업 착수, 변경 요청 연결 | 변경으로 다시 열림 |
+| 변경으로 다시 열림 | 새 변경 때문에 재검토가 필요한 상태 | 재분석, 승인 요청, 보류 | 승인 대기, 잠김, 보류 |
+| 보류 | 결정이 미뤄진 상태 | 재검토 일정 설정, 근거 보강 | 승인 대기, 변경으로 다시 열림 |
 
-```bash
-python3 scripts/review_submission_pdf.py path/to/proposal.pdf
-```
+## 8. 실패 상태와 예외 처리
 
-내부 처리:
+- 입력이 부족하면 확정 문장 대신 `추가 확인 필요`로 남깁니다.
+- 영향 범위를 모르면 비우지 말고 `미확정 영향` 축을 따로 보여줍니다.
+- 승인권자가 없으면 `결정 주체 미지정` 상태를 따로 표시합니다.
+- 분석 실패 시 마지막 정상 결과를 참고 정보로만 남기고 최신 상태처럼 보이게 하지 않습니다.
 
-- 파일 형식, 용량, 파일명 제약 점검
-- 가능하면 `pdfinfo`, `pdftotext`로 메타데이터와 텍스트 preview 추출
-- 결과를 `.codex-loop/artifacts/pdf-review/*.json`, `*.md`에 저장
-- 다음 Ralph run 전에 고쳐야 할 blocker/warning 정리
+## 9. UI 금지 패턴
 
-사용자 체감:
+- 채팅 입력창이 화면 중심이 되는 assistant 레이아웃
+- 몇 개 카드만 나열한 가벼운 협업툴 구도
+- 상태를 색깔 pill 하나로만 구분하는 표현
+- 근거 링크 없는 요약 문장을 메인 판단 영역에 배치하는 구성
 
-- 제출 첨부파일이 조건을 어기는지 바로 알 수 있음
-- PDF 내용이 현재 PRD/요약과 어긋나면 loop를 다시 돌리기 전에 잡을 수 있음
+## 10. 현재 MVP에서 확인할 핵심
 
-## 6. 실제 loop 실행
-
-### 외부 worker loop
-
-사용자:
-
-```bash
-./ralph.sh -n 6
-```
-
-내부 처리:
-
-1. `handoff.md` 포함 prompt 생성
-2. worker 실행
-3. deterministic checks 실행
-4. read-only review gate 실행
-5. 결과를 `logs/`, `history/`, `reviews/`, `state.json`에 저장
-6. iteration 뒤 context refresh
-
-### same-session hook loop
-
-사용자:
-
-```text
-/ralph-loop "..." --completion-promise "<promise>COMPLETE</promise>" --max-iterations 20
-```
-
-내부 처리:
-
-1. `ralph-loop.json`에 state 기록
-2. assistant가 종료하려 할 때 Stop hook 발동
-3. hook이 completion / blocked / decide / max-iteration 판정
-4. 완료 아니면 continuation prompt를 다시 넣음
-5. context refresh도 같이 수행
-
-## 7. 사용자가 보는 주요 파일
-
-- `.codex-loop/preflight/REPORT.md`: 환경 상태
-- `.codex-loop/artifacts/pdf-review/`: 제출용 PDF 점검 결과
-- `.codex-loop/context/handoff.md`: 다음 best step
-- `.codex-loop/context/current-state.md`: handoff 근거가 되는 최신 상태
-- `.codex-loop/tasks.json`: 현재 작업 그래프
-- `.codex-loop/logs/LOG.md`: iteration 요약
-- `.codex-loop/reviews/`: 리뷰 게이트 결과
-- `.codex-loop/assets/registry.json`: 승인된 시각 자산 목록
-
-## 8. 디자인/자산 흐름
-
-사용자는 필요할 때 이미지/영상/Figma 자산을 생성하거나 가져온 뒤 registry에 기록할 수 있습니다.
-
-예:
-
-```bash
-python3 scripts/asset_registry.py add   --kind image   --path assets/hero-v1.png   --source imagegen   --status approved   --title "Hero v1"
-```
-
-그 다음 context refresh를 하면, 다음 iteration부터는 그 자산이 handoff packet에 반영됩니다.
-
-## 9. 이 구조의 핵심
-
-SummitHarness는 transcript를 계속 길게 먹이는 방식이 아니라:
-
-- repo state 저장
-- 필요한 것만 압축
-- 다음 iteration에 handoff packet만 재주입
-
-이 구조로 움직입니다.
-
-그래서 사용자는 긴 세션에서도 "지금 어디까지 왔는지"를 계속 확인할 수 있습니다.
+- 첫 화면에서 `변경 영향 맵 + 합의 잠금 보드`가 동시에 보입니다.
+- 성공, 실패, 빈 상태, 승인 대기, 추가 확인 필요가 각각 독립 상태로 정의되어 있습니다.
+- 변경 요청은 로그가 아니라 계약 재개방 이벤트로 동작합니다.
+- generic 채팅형 AI 레이아웃을 피하는 정보구조 가드레일이 포함되어 있습니다.
